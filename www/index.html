@@ -22,12 +22,10 @@
   <ons-splitter>
     <ons-splitter-side id="menu" side="left" width="220px" collapse swipeable>
       <ons-page>
+        <img src="./img/back.jpeg" style="width:100%">
         <ons-list>
-          <ons-list-item onclick="fn.load('home.html')" tappable>
+          <ons-list-item onclick="fn.load('main.html')" tappable>
             Home
-          </ons-list-item>
-          <ons-list-item onclick="fn.load('settings.html')" tappable>
-            Settings
           </ons-list-item>
           <ons-list-item onclick="fn.load('about.html')" tappable>
             About
@@ -51,7 +49,8 @@
           Open Sinhala Dictionary Plus
         </div>
       </ons-toolbar>
-      <input id="txtSearchBoxM" onkeyup="suggShow(this)" onpaste="suggShow(this)" type="search" value="" placeholder="Search" class="search-input search-input--material">
+      <input id="txtSearchBoxM" onkeyup="suggShow(this)" onpaste="suggShow(this)" type="search" value="" placeholder="Search"
+        class="search-input search-input--material">
       <div id="listSuggM" class="list-sugg-m">
 
       </div>
@@ -68,7 +67,7 @@
           </ons-toolbar-button>
         </div>
         <div id="titleEd" class="center">
-         <!-- title goes here -->
+          <!-- title goes here -->
         </div>
       </ons-toolbar>
 
@@ -80,13 +79,13 @@
               <!-- list goes here -->
             </div>
           </ons-list>
-          <ons-list style="margin-top:15px">
+          <ons-list style="margin-top:15px; display: none;">
             <ons-list-header>Definitions</ons-list-header>
             <div class="listEnDef">
 
             </div>
           </ons-list>
-          <ons-list style="margin-top:15px">
+          <ons-list style="margin-top:15px; display: none;">
             <ons-list-header>Synonyms</ons-list-header>
             <div class="listEnSyn">
 
@@ -121,15 +120,10 @@
           <ons-list>
             <ons-list-header>Meanings</ons-list-header>
             <div id="listSnMeanSd">
-              
+
             </div>
           </ons-list>
-        </div>
-      </ons-card>
-
-      <ons-card>
-        <div class="content">
-          <ons-list style="display:none">
+          <ons-list style="margin-top:15px;display:none">
             <ons-list-header>Definitions</ons-list-header>
             <div class="listEnDef">
 
@@ -143,7 +137,6 @@
           </ons-list>
         </div>
       </ons-card>
-
     </ons-page>
   </template>
 
