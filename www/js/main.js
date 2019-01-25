@@ -172,20 +172,26 @@ function enDefShow(input) {
 }
 
 function enDefFill(data) {
-  var defs = data[0].defs;
-  var def; // definition
-  var pos; // part of speech
-  for (var i = 0; i < defs.length; i++) {
-    pos = defs[i].substr(0, defs[i].indexOf('	'));
-    pos = "(" + datamuseExpandPos(pos) + ") ";
-    def = defs[i].substr(defs[i].indexOf(' ') + 1);
-    $(".listEnDef").append("<ons-list-item>" + pos + def + "</ons-list-item>");
+  if (!jQuery.isEmptyObject(data)) {
+    var defs = data[0].defs;
+    var def; // definition
+    var pos; // part of speech
+    for (var i = 0; i < defs.length; i++) {
+      pos = defs[i].substr(0, defs[i].indexOf('	'));
+      pos = "(" + datamuseExpandPos(pos) + ") ";
+      def = defs[i].substr(defs[i].indexOf(' ') + 1);
+      $(".listEnDef").append("<ons-list-item>" + pos + def + "</ons-list-item>");
+    }
+    $('.listEnDef').parent().fadeIn();
   }
 }
 
 function enSynFill(syns) {
-  for (var i = 0; i < syns.length; i++) {
-    $(".listEnSyn").append("<ons-list-item>" + syns[i].word + '<div class="right"><ons-icon onclick="TTSspeak(\'' + syns[i].word + '\');" icon="ion-volume-high" class="list-item__icon"></ons-icon></div>' + "</ons-list-item>");
+  if (!jQuery.isEmptyObject(syns)) { 
+    for (var i = 0; i < syns.length; i++) {
+      $(".listEnSyn").append("<ons-list-item>" + syns[i].word + '<div class="right"><ons-icon onclick="TTSspeak(\'' + syns[i].word + '\');" icon="ion-volume-high" class="list-item__icon"></ons-icon></div>' + "</ons-list-item>");
+    }
+    $('.listEnSyn').parent().fadeIn();
   }
 }
 
