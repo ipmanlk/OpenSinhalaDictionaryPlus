@@ -83,13 +83,13 @@ function dbLoadOnError(e) {
 
 
 function modalLoadingShow(txt) {
-  var modal = $('#modal-loading');
-  $("#modal-loading-msg").text(txt);
+  var modal = $('#modalLoading');
+  $("#modalLoadingMsg").text(txt);
   modal.show();
 }
 
 function modalLoadingHide() {
-  var modal = $('#modal-loading');
+  var modal = $('#modalLoading');
   modal.hide();
 }
 
@@ -239,4 +239,9 @@ function datamuseExpandPos(pos) {
 // text to speach plugin
 function TTSspeak(input) {
   TTS.speak(input);
+}
+
+// about
+function aboutShow() {
+  $('#modalAbout').show();
 }

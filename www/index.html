@@ -14,6 +14,14 @@
     .search-input {
       width: 100%;
     }
+    .modal-about div h4{
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+    .modal-about div h3{
+      margin-top: 0;
+      padding-top: 0;
+    }
   </style>
 </head>
 
@@ -27,7 +35,7 @@
           <ons-list-item onclick="fn.load('main.html')" tappable>
             Home
           </ons-list-item>
-          <ons-list-item onclick="fn.load('about.html')" tappable>
+          <ons-list-item onclick="aboutShow()" tappable>
             About
           </ons-list-item>
         </ons-list>
@@ -141,11 +149,24 @@
   </template>
 
   <!-- loading screen -->
-  <ons-modal direction="up" id="modal-loading">
+  <ons-modal direction="up" id="modalLoading">
     <div style="text-align: center">
       <p>
-        <ons-icon icon="md-spinner" size="28px" spin></ons-icon> <span id="modal-loading-msg"></span>
+        <ons-icon icon="md-spinner" size="28px" spin></ons-icon> <span id="modalLoadingMsg"></span>
       </p>
+    </div>
+  </ons-modal>
+
+  <!-- loading screen -->
+  <ons-modal direction="up" id="modalAbout" class="modal-about">
+    <div style="text-align: center">
+      <h4>Developed By</h4>
+      <h3>Navinda Dissanayake</h3>
+      <h4>Web</h4>
+      <h3>www.navinda.xyz</h3>
+      <h4>Mail</h4>
+      <h3>navilk@zoho.com</h3>
+      <button class="button button--material" onclick="$('#modalAbout').hide();">Close</button>
     </div>
   </ons-modal>
 
