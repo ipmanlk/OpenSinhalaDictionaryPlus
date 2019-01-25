@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <link rel="stylesheet" href="https://cdn.navinda.xyz/OnsenUI-dist-2.10.5/css/onsenui.min.css">
+  <link rel="stylesheet" href="https://cdn.navinda.xyz/OnsenUI-dist-2.10.5/css/dark-onsen-css-components.min.css">
+  <!--  libs -->
+  <script src="https://cdn.navinda.xyz/OnsenUI-dist-2.10.5/js/onsenui.min.js"></script>
+  <script src="https://cdn.navinda.xyz/jquery/jquery-3.3.1.min.js"></script>
+  <script src="cordova.js"></script>
+  <style>
+    .search-input {
+      width: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- side menu (slider) -->
+  <ons-splitter>
+    <ons-splitter-side id="menu" side="left" width="220px" collapse swipeable>
+      <ons-page>
+        <ons-list>
+          <ons-list-item onclick="fn.load('home.html')" tappable>
+            Home
+          </ons-list-item>
+          <ons-list-item onclick="fn.load('settings.html')" tappable>
+            Settings
+          </ons-list-item>
+          <ons-list-item onclick="fn.load('about.html')" tappable>
+            About
+          </ons-list-item>
+        </ons-list>
+      </ons-page>
+    </ons-splitter-side>
+    <ons-splitter-content id="content" page="main.html"></ons-splitter-content>
+  </ons-splitter>
+
+  <!-- main page -->
+  <template id="main.html">
+    <ons-page>
+      <ons-toolbar>
+        <div class="left">
+          <ons-toolbar-button onclick="fn.open()" id="toolbar-menu-toggler">
+            <ons-icon icon="md-menu"></ons-icon>
+          </ons-toolbar-button>
+        </div>
+        <div class="center">
+          Open Sinhala Dictionary Plus
+        </div>
+      </ons-toolbar>
+      <input id="txtSearchBoxM" onkeyup="suggShow(this)" onpaste="suggShow(this)" type="search" value="" placeholder="Search" class="search-input search-input--material">
+      <div id="listSuggM" class="list-sugg-m">
+
+      </div>
+    </ons-page>
+  </template>
+
+  <!-- show english def of sinhala word -->
+  <template id="enDef.html">
+    <ons-page>
+      <ons-toolbar>
+        <div class="left">
+          <ons-toolbar-button onclick="fn.load('main.html')">
+            <ons-icon icon="md-arrow-back"></ons-icon>
+          </ons-toolbar-button>
+        </div>
+        <div id="titleEd" class="center">
+         <!-- title goes here -->
+        </div>
+      </ons-toolbar>
+
+      <ons-card>
+        <div class="content">
+          <ons-list>
+            <ons-list-header>Meanings</ons-list-header>
+            <div id="listEnMeanEd">
+              <!-- list goes here -->
+            </div>
+          </ons-list>
+          <ons-list style="margin-top:15px">
+            <ons-list-header>Definitions</ons-list-header>
+            <div class="listEnDef">
+
+            </div>
+          </ons-list>
+          <ons-list style="margin-top:15px">
+            <ons-list-header>Synonyms</ons-list-header>
+            <div class="listEnSyn">
+
+            </div>
+          </ons-list>
+        </div>
+      </ons-card>
+    </ons-page>
+  </template>
+
+  <!-- show sinhala def on english word -->
+  <template id="snDef.html">
+    <ons-page>
+      <ons-toolbar>
+        <div class="left">
+          <ons-toolbar-button onclick="fn.load('main.html')">
+            <ons-icon icon="md-arrow-back"></ons-icon>
+          </ons-toolbar-button>
+        </div>
+        <div id="titleSd" class="center">
+          <!-- title goes here -->
+        </div>
+        <div class="right">
+          <ons-toolbar-button onclick="fn.open()" id="toolbar-menu-toggler">
+            <ons-icon icon="ion-volume-high"></ons-icon>
+          </ons-toolbar-button>
+        </div>
+      </ons-toolbar>
+
+      <ons-card>
+        <div class="content">
+          <ons-list id="listSnMeanSd">
+            <!-- list goes here -->
+          </ons-list>
+        </div>
+      </ons-card>
+
+      <ons-card>
+        <div class="content">
+          <ons-list>
+            <ons-list-header>Definitions</ons-list-header>
+            <div class="listEnDef">
+
+            </div>
+          </ons-list>
+          <ons-list style="margin-top:15px">
+            <ons-list-header>Synonyms</ons-list-header>
+            <div class="listEnSyn">
+
+            </div>
+          </ons-list>
+        </div>
+      </ons-card>
+
+    </ons-page>
+  </template>
+
+  <!-- loading screen -->
+  <ons-modal direction="up" id="modal-loading">
+    <div style="text-align: center">
+      <p>
+        <ons-icon icon="md-spinner" size="28px" spin></ons-icon> <span id="modal-loading-msg"></span>
+      </p>
+    </div>
+  </ons-modal>
+
+  <!-- app functions -->
+  <script src="./js/main.js" charset="utf-8"></script>
+</body>
+
+</html>
