@@ -185,7 +185,7 @@ function enDefFill(data) {
 
 function enSynFill(syns) {
   for (var i = 0; i < syns.length; i++) {
-    $(".listEnSyn").append("<ons-list-item>" + syns[i].word + "</ons-list-item>");
+    $(".listEnSyn").append("<ons-list-item>" + syns[i].word + '<div class="right"><ons-icon onclick="TTSspeak(\'' + syns[i].word + '\');" icon="ion-volume-high" class="list-item__icon"></ons-icon></div>' + "</ons-list-item>");
   }
 }
 
