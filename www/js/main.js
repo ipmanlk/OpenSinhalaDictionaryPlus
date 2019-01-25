@@ -4,6 +4,10 @@ var en2sn = null;
 var sn2enKeys = {};
 var en2snKeys = {};
 var selectedWord = null;
+
+// variable for handling back button
+var currentPage = null;
+
 // when onsen ui ready
 ons.ready(function () {
   init();
@@ -120,6 +124,7 @@ function meaningShow(input) {
     enDefShow(input);
   }
   selectedWord = input;
+  currentPage = "def";
 }
 
 function suggListAdd(word) {

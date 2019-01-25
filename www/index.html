@@ -62,7 +62,7 @@
     <ons-page>
       <ons-toolbar>
         <div class="left">
-          <ons-toolbar-button onclick="fn.load('main.html')">
+          <ons-toolbar-button onclick="fn.load('main.html');currentPage='main';">
             <ons-icon icon="md-arrow-back"></ons-icon>
           </ons-toolbar-button>
         </div>
@@ -101,7 +101,7 @@
     <ons-page>
       <ons-toolbar>
         <div class="left">
-          <ons-toolbar-button onclick="fn.load('main.html')">
+          <ons-toolbar-button onclick="fn.load('main.html');currentPage='main';">
             <ons-icon icon="md-arrow-back"></ons-icon>
           </ons-toolbar-button>
         </div>
@@ -151,6 +151,7 @@
 
   <!-- app functions -->
   <script src="./js/main.js" charset="utf-8"></script>
+  <script src="./js/navigate.js" charset="utf-8"></script>
 </body>
 
 </html>
