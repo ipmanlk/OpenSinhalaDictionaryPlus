@@ -3,6 +3,7 @@ var sn2en = null;
 var en2sn = null;
 var sn2enKeys = {};
 var en2snKeys = {};
+var selectedWord = null;
 // when onsen ui ready
 ons.ready(function () {
   init();
@@ -118,6 +119,7 @@ function meaningShow(input) {
   } else {
     enDefShow(input);
   }
+  selectedWord = input;
 }
 
 function suggListAdd(word) {
@@ -221,4 +223,9 @@ function datamuseExpandPos(pos) {
       break;
   }
   return(expandedPos);
+}
+
+// text to speach plugin
+function TTSspeak(input) {
+  TTS.speak(input);
 }
