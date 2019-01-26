@@ -172,7 +172,7 @@ function enDefShow(input) {
       $('#listEnMeanEd').append("<ons-list-item>" + meanings[i] + "</ons-list-item>");
     }
     datamuseGet("def", sn2en[input][0], enDefFill);
-    datamuseGet("syn", sn2en[input][0], enSynFill);
+    snSynFill();
   })
 }
 
@@ -192,11 +192,22 @@ function enDefFill(data) {
 }
 
 function enSynFill(syns) {
-  if (!jQuery.isEmptyObject(syns)) { 
+  if (!jQuery.isEmptyObject(syns)) {
     for (var i = 0; i < syns.length; i++) {
       $(".listEnSyn").append("<ons-list-item>" + syns[i].word + '<div class="right"><ons-icon onclick="TTSspeak(\'' + syns[i].word + '\');" icon="ion-volume-high" class="list-item__icon"></ons-icon></div>' + "</ons-list-item>");
     }
     $('.listEnSyn').parent().fadeIn();
+  }
+}
+
+function snSynFill() {
+  var enMeaning = (sn2en[selectedWord][0]).trim();
+  var snSyns = en2sn[enMeaning];
+  if (!jQuery.isEmptyObject(snSyns)) {
+    for (var i=0; i < snSyns.length; i++) {
+      $(".listSnSyn").append("<ons-list-item>" + snSyns[i] + "</ons-list-item>");
+    }
+    $('.listSnSyn').parent().fadeIn();
   }
 }
 
@@ -233,7 +244,7 @@ function datamuseExpandPos(pos) {
       expandedPos = "unknown";
       break;
   }
-  return(expandedPos);
+  return (expandedPos);
 }
 
 // text to speach plugin
