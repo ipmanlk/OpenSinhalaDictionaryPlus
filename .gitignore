@@ -19,3 +19,4 @@ typings/
 /server_side
 *.jks
 *.bat
+release.sh
