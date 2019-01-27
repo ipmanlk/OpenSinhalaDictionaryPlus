@@ -181,7 +181,7 @@ function enDefShow(input) {
     $("#titleEd").text(input);
     var meanings = sn2en[input];
     for (var i = 0; i < meanings.length; i++) {
-      $('#listEnMeanEd').append("<ons-list-item>" + meanings[i] + "</ons-list-item>");
+      $('#listEnMeanEd').append("<ons-list-item>" + meanings[i]  + '<div class="right"><ons-icon onclick="textCopy(\'' +  meanings[i] + '\');" icon="md-copy" class="list-item__icon"></ons-icon></div>' + "</ons-list-item>");
     }
     datamuseGet("def", sn2en[input][0], enDefFill);
     snSynFill();
