@@ -167,7 +167,7 @@ function snDefShow(input) {
     $("#titleSd").text(input);
     var meanings = en2sn[input];
     for (var i = 0; i < meanings.length; i++) {
-      $('#listSnMeanSd').append("<ons-list-item>" + meanings[i] + "</ons-list-item>");
+      $('#listSnMeanSd').append("<ons-list-item>" + meanings[i]  + '<div class="right"><ons-icon onclick="textCopy(\'' +  meanings[i] + '\');" icon="md-copy" class="list-item__icon"></ons-icon></div>' + "</ons-list-item>");
     }
     datamuseGet("def", input, enDefFill);
     datamuseGet("syn", input, enSynFill);
@@ -277,6 +277,11 @@ function datamuseExpandPos(pos) {
 // text to speach plugin
 function TTSspeak(input) {
   TTS.speak(input);
+}
+
+// Copy to clipboard
+function textCopy(text) {
+  cordova.plugins.clipboard.copy(text);
 }
 
 // about
