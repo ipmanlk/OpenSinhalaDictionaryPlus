@@ -110,10 +110,15 @@ function wordSearch(input) {
   var counter = 0;
   for (var i = 0; i < db.length; i++) {
     if (db[i].startsWith(input)) {
-      suggListAdd(db[i]);
+      suggListAdd(db[i], "offline");
       counter++;
       if (counter == limit) break;
     }
+  }
+  // if there are no sugestions prompt for google translate
+  if (counter == 0) {
+    $("#listSuggM").empty();
+    gtranslateGet(input);
   }
 }
 
@@ -127,8 +132,14 @@ function meaningShow(input) {
   currentPage = "def";
 }
 
-function suggListAdd(word) {
-  var listItem = '<ons-card onclick="meaningShow(' + "'" + word + "'" + ')"><div class="content">' + word + '</div></ons-card>';
+function suggListAdd(word, type) {
+  // type - word come from online or offline
+  var listItem;
+  if (type == "offline") {
+    listItem = '<ons-card onclick="meaningShow(' + "'" + word + "'" + ')"><div class="content">' + word + '</div></ons-card>';
+  } else {
+    listItem = '<ons-card onclick="meaningShow(' + "'" + word + "'" + ')"><div class="content">' + word + '<span style="float: right"><ons-icon icon="md-translate"></ons-icon></span></div></ons-card>';
+  }
   $('#listSuggM').append(listItem);
 }
 
@@ -221,6 +232,21 @@ function datamuseGet(type, word, callback) {
   }
   $.get(url, function (data) {
     callback(data);
+  }, 'json');
+}
+
+// google translate api calls
+function gtranslateGet(input) {
+  var url = "http://s1.navinda.xyz:3000/osdp?word=" + input;
+  $.get(url, function (data) {
+    if (!inputNullOrEmpty(data)) {
+      if (langDetect(input) == "en2sn") {
+        en2sn[input] = data;
+      } else {
+        sn2en[input] = data;
+      }
+      suggListAdd(input, "online");
+    }
   }, 'json');
 }
 
