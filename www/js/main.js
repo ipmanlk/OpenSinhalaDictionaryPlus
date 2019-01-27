@@ -282,6 +282,7 @@ function TTSspeak(input) {
 // Copy to clipboard
 function textCopy(text) {
   cordova.plugins.clipboard.copy(text);
+  toastShow("Text copied to clipboard!");
 }
 
 function toastShow(msg) {
