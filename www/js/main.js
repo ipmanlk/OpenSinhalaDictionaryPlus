@@ -96,7 +96,7 @@ function modalLoadingHide() {
 function suggShow(element) {
   $('#listSuggM').empty();
   var input = inputClean($(element).val());
-  if (!inputNullOrEmpty(input)) wordSearch(input);
+  if (!isNullOrEmpty(input)) wordSearch(input);
 }
 
 //  use to search for words start with n
@@ -117,6 +117,7 @@ function wordSearch(input) {
   }
   // if there are no sugestions prompt for google translate
   if (counter == 0) {
+    // clean if there are any online suggestions
     $("#listSuggM").empty();
     gtranslateGet(input);
   }
@@ -147,7 +148,7 @@ function inputClean(input) {
   return ((input.trim()).toLowerCase());
 }
 
-function inputNullOrEmpty(input) {
+function isNullOrEmpty(input) {
   return jQuery.isEmptyObject(input);
 }
 
@@ -188,7 +189,7 @@ function enDefShow(input) {
 }
 
 function enDefFill(data) {
-  if (!jQuery.isEmptyObject(data)) {
+  if (!isNullOrEmpty(data)) {
     var defs = data[0].defs;
     var def; // definition
     var pos; // part of speech
@@ -203,7 +204,7 @@ function enDefFill(data) {
 }
 
 function enSynFill(syns) {
-  if (!jQuery.isEmptyObject(syns)) {
+  if (!isNullOrEmpty(syns)) {
     for (var i = 0; i < syns.length; i++) {
       $(".listEnSyn").append("<ons-list-item>" + syns[i].word + '<div class="right"><ons-icon onclick="TTSspeak(\'' + syns[i].word + '\');" icon="ion-volume-high" class="list-item__icon"></ons-icon></div>' + "</ons-list-item>");
     }
@@ -214,7 +215,7 @@ function enSynFill(syns) {
 function snSynFill() {
   var enMeaning = (sn2en[selectedWord][0]).trim();
   var snSyns = en2sn[enMeaning];
-  if (!jQuery.isEmptyObject(snSyns)) {
+  if (!isNullOrEmpty(snSyns)) {
     for (var i=0; i < snSyns.length; i++) {
       $(".listSnSyn").append("<ons-list-item>" + snSyns[i] + "</ons-list-item>");
     }
@@ -239,7 +240,7 @@ function datamuseGet(type, word, callback) {
 function gtranslateGet(input) {
   var url = "http://s1.navinda.xyz:3000/osdp?word=" + input;
   $.get(url, function (data) {
-    if (!inputNullOrEmpty(data)) {
+    if (!isNullOrEmpty(data)) {
       if (langDetect(input) == "en2sn") {
         en2sn[input] = data;
       } else {
