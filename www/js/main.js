@@ -284,6 +284,10 @@ function textCopy(text) {
   cordova.plugins.clipboard.copy(text);
 }
 
+function toastShow(msg) {
+  ons.notification.toast(msg, { timeout: 1000, animation: 'ascend' });
+}
+
 // about
 function aboutShow() {
   $('#modalAbout').show();
