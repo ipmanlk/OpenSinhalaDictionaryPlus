@@ -155,7 +155,7 @@ function isNullOrEmpty(input) {
 // check language
 function langDetect(txt) {
   var selectedDb;
-  var test = (/^[A-Za-z][A-Za-z0-9.-]*$/.test(txt));
+  var test = (/^[A-Za-z][\sA-Za-z0-9.-]*$/.test(txt));
   test ? selectedDb = "en2sn" : selectedDb = "sn2en";
   return (selectedDb);
 }
