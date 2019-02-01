@@ -254,6 +254,7 @@ function gtranslateGet(input) {
       }
       suggListAdd(input, "online");
       modalLoadingHide();
+      osdpReport(input, data);
     } else {
       modalLoadingHide();
       ons.notification.alert("Your input is incorrect!. Please check for spelling mistakes.");
@@ -309,4 +310,16 @@ function onlineCheck() {
   var networkState = navigator.connection.type;
   var isOffline = (networkState == Connection.NONE) || (networkState == Connection.UNKNOWN);
   return !isOffline;
+}
+
+// report unknown words
+function osdpReport(word, meaning) {
+  $.post("https://www.navinda.xyz/osdb/api/", 
+  {
+    "action": "word_add",
+    "word":word,
+    "meanings":meaning[0]
+  } ,function(data){
+    if (data == 1) toastShow("Word has been reported to the developer!");
+  });
 }
