@@ -240,16 +240,19 @@ function datamuseGet(type, word, callback) {
 function gtranslateGet(input) {
   modalLoadingShow("Getting results...");
   var url = "http://s1.navinda.xyz:3000/osdp?word=" + input;
+  $("#listSuggM").empty();
   $.get(url, function (data) {
-    if (!isNullOrEmpty(data)) {
+    if (!isNullOrEmpty(data) && (langDetect(input) !== langDetect(data))) {
       if (langDetect(input) == "en2sn") {
         en2sn[input] = data;
       } else {
         sn2en[input] = data;
       }
-      $("#listSuggM").empty();
       suggListAdd(input, "online");
       modalLoadingHide();
+    } else {
+      modalLoadingHide();
+      ons.notification.alert("Your input is incorrect!. Please check for spelling mistakes.");
     }
   }, 'json');
 }
