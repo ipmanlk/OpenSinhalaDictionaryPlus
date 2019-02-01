@@ -238,6 +238,7 @@ function datamuseGet(type, word, callback) {
 
 // google translate api calls
 function gtranslateGet(input) {
+  modalLoadingShow("Getting results...");
   var url = "http://s1.navinda.xyz:3000/osdp?word=" + input;
   $.get(url, function (data) {
     if (!isNullOrEmpty(data)) {
@@ -248,6 +249,7 @@ function gtranslateGet(input) {
       }
       $("#listSuggM").empty();
       suggListAdd(input, "online");
+      modalLoadingHide();
     }
   }, 'json');
 }
