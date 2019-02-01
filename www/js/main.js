@@ -119,7 +119,7 @@ function wordSearch(input) {
   if (counter == 0 && onlineCheck()) {
     // clean if there are any online suggestions
     $("#listSuggM").empty();
-    gtranslateGet(input);
+    $("#listSuggM").append('<ons-card onclick="gtranslateGet(\'' + input + '\')"><div class="content"><h4>Sorry!. I couldn\'t find anything on that. Click here to get results from online.</h4></div></ons-card>');
   }
 }
 
@@ -246,6 +246,7 @@ function gtranslateGet(input) {
       } else {
         sn2en[input] = data;
       }
+      $("#listSuggM").empty();
       suggListAdd(input, "online");
     }
   }, 'json');
