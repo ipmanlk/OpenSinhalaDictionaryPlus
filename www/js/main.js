@@ -314,12 +314,16 @@ function onlineCheck() {
 
 // report unknown words
 function osdpReport(word, meaning) {
-  $.post("https://www.navinda.xyz/osdb/api/", 
-  {
-    "action": "word_add",
-    "word":word,
-    "meanings":meaning[0]
-  } ,function(data){
-    if (data == 1) toastShow("Word has been reported to the developer!");
-  });
+  // regex to check if word is not a sentence
+  var test = (/^(([\w\d]+)([\s-])([\w\d]+)|([\w\d]+))$/.test(word));
+  if (test) {
+    $.post("https://www.navinda.xyz/osdb/api/", 
+    {
+      "action": "word_add",
+      "word":word,
+      "meanings":meaning[0]
+    } ,function(data){
+      if (data == 1) toastShow("Word has been reported to the developer!");
+    });
+  }
 }
