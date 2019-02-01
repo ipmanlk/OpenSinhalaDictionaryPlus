@@ -116,7 +116,7 @@ function wordSearch(input) {
     }
   }
   // if there are no sugestions prompt for google translate
-  if (counter == 0) {
+  if (counter == 0 && onlineCheck()) {
     // clean if there are any online suggestions
     $("#listSuggM").empty();
     gtranslateGet(input);
@@ -296,6 +296,7 @@ function aboutShow() {
 
 // online check
 function onlineCheck() {
+  var networkState = navigator.connection.type;
   var isOffline = (networkState == Connection.NONE) || (networkState == Connection.UNKNOWN);
   return !isOffline;
 }
