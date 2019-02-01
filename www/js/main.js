@@ -293,3 +293,9 @@ function toastShow(msg) {
 function aboutShow() {
   $('#modalAbout').show();
 }
+
+// online check
+function onlineCheck() {
+  var isOffline = (networkState == Connection.NONE) || (networkState == Connection.UNKNOWN);
+  return !isOffline;
+}
