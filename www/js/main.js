@@ -169,8 +169,12 @@ function snDefShow(input) {
     for (var i = 0; i < meanings.length; i++) {
       $('#listSnMeanSd').append("<ons-list-item>" + meanings[i]  + '<div class="right"><ons-icon onclick="textCopy(\'' +  meanings[i] + '\');" icon="md-copy" class="list-item__icon"></ons-icon></div>' + "</ons-list-item>");
     }
-    datamuseGet("def", input, enDefFill);
-    datamuseGet("syn", input, enSynFill);
+    // call for datamuse
+    if (onlineCheck()) {
+      datamuseGet("def", input, enDefFill);
+      datamuseGet("syn", input, enSynFill);
+    }
+
   })
 }
 
