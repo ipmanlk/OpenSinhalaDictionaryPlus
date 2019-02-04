@@ -167,17 +167,15 @@ function snDefShow(input) {
     $("#titleSd").text(input);
     var meanings = en2sn[input];
     for (var i = 0; i < meanings.length; i++) {
-      $('#listSnMeanSd').append("<ons-list-item>" + meanings[i]  + '<div class="right"><ons-icon onclick="textCopy(\'' +  meanings[i] + '\');" icon="md-copy" class="list-item__icon"></ons-icon></div>' + "</ons-list-item>");
+      $('#listSnMeanSd').append("<ons-list-item>" + meanings[i] + '<div class="right"><ons-icon onclick="textCopy(\'' + meanings[i] + '\');" icon="md-copy" class="list-item__icon"></ons-icon></div>' + "</ons-list-item>");
     }
     // call for datamuse
     if (onlineCheck()) {
       datamuseGet("def", input, enDefFill);
       datamuseGet("syn", input, enSynFill);
     }
-
   })
 }
-
 
 function enDefShow(input) {
   var content = document.querySelector('ons-splitter-content');
@@ -185,7 +183,7 @@ function enDefShow(input) {
     $("#titleEd").text(input);
     var meanings = sn2en[input];
     for (var i = 0; i < meanings.length; i++) {
-      $('#listEnMeanEd').append("<ons-list-item>" + meanings[i]  + '<div class="right"><ons-icon onclick="textCopy(\'' +  meanings[i] + '\');" icon="md-copy" class="list-item__icon"></ons-icon></div>' + "</ons-list-item>");
+      $('#listEnMeanEd').append("<ons-list-item>" + meanings[i] + '<div class="right"><ons-icon onclick="textCopy(\'' + meanings[i] + '\');" icon="md-copy" class="list-item__icon"></ons-icon></div>' + "</ons-list-item>");
     }
     datamuseGet("def", sn2en[input][0], enDefFill);
     snSynFill();
@@ -220,7 +218,7 @@ function snSynFill() {
   var enMeaning = (sn2en[selectedWord][0]).trim();
   var snSyns = en2sn[enMeaning];
   if (!isNullOrEmpty(snSyns)) {
-    for (var i=0; i < snSyns.length; i++) {
+    for (var i = 0; i < snSyns.length; i++) {
       $(".listSnSyn").append("<ons-list-item>" + snSyns[i] + "</ons-list-item>");
     }
     $('.listSnSyn').parent().fadeIn();
@@ -235,9 +233,8 @@ function datamuseGet(type, word, callback) {
   } else {
     url = "https://api.datamuse.com/words?max=10&rel_syn=" + word;
   }
-  $.get(url, function (data) {
-    callback(data);
-  }, 'json');
+
+  requestSend(url, "get", null,null , callback);
 }
 
 // google translate api calls
@@ -245,8 +242,13 @@ function gtranslateGet(input) {
   modalLoadingShow("Getting results...");
   var url = "http://s1.navinda.xyz:3000/osdp?word=" + input;
   $("#listSuggM").empty();
-  $.get(url, function (data) {
+
+  function output(stringData) {
+    // parse string data
+    var data = JSON.parse(stringData);
+    // check if data is not null & meaning is correct
     if (!isNullOrEmpty(data) && (langDetect(input) !== langDetect(data))) {
+      // add meaning to global objects
       if (langDetect(input) == "en2sn") {
         en2sn[input] = data;
       } else {
@@ -254,12 +256,15 @@ function gtranslateGet(input) {
       }
       suggListAdd(input, "online");
       modalLoadingHide();
+      // send report to dev
       osdpReport(input, data);
     } else {
       modalLoadingHide();
       ons.notification.alert("Your input is incorrect!. Please check for spelling mistakes.");
     }
-  }, 'json');
+  }
+
+  requestSend(url, "get", null, input, output);
 }
 
 // expand part of speech
@@ -317,13 +322,32 @@ function osdpReport(word, meaning) {
   // regex to check if word is not a sentence
   var test = (/^(([\w\d]+)([\s-])([\w\d]+)|([\w\d]+))$/.test(word));
   if (test) {
-    $.post("https://www.navinda.xyz/osdb/api/", 
-    {
-      "action": "word_add",
-      "word":word,
-      "meanings":meaning[0]
-    } ,function(data){
+    var url = "https://www.navinda.xyz/osdb/api/";
+    var data = {"action":"word_add", "word": word, "meanings": meaning[0]};
+    
+    requestSend(url, "post", data, null, function (data) {
       if (data == 1) toastShow("Word has been reported to the developer!");
     });
   }
+}
+
+function requestSend(url, type, data, input, callback) {
+  // url = request url
+  // type = request type
+  // data = data to be send
+  // input = input word by the user 
+  // callback = function to run after success 
+  $.ajax({
+    url: url,
+    type: type,
+    data: data,
+    timeout: 30000,
+    success: function (data) {
+      callback(data);
+    },
+    error: function() {
+      toastShow("Request failed!");
+      modalLoadingHide();
+    }
+  });
 }
