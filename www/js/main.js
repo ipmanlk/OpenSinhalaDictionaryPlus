@@ -1,8 +1,8 @@
 'use strict';
 var sn2en = null;
 var en2sn = null;
-var sn2enKeys = {};
-var en2snKeys = {};
+var sn2enKeys = [];
+var en2snKeys = [];
 var selectedWord = null;
 
 // variable for handling back button
@@ -44,9 +44,11 @@ function dbLoad(data, db) {
   if (db == "en2sn") {
     en2sn = data;
     en2snKeys = Object.keys(data);
+    en2snKeys.sort();
   } else {
     sn2en = data;
     sn2enKeys = Object.keys(data);
+    sn2enKeys.sort();
   }
   // hide loading screen if sn2en is not null
   sn2en !== null ? modalLoadingHide() : null;
@@ -103,8 +105,6 @@ function suggShow(element) {
 function wordSearch(input) {
   var db;
   langDetect(input) == "en2sn" ? db = en2snKeys : db = sn2enKeys;
-  // sort db
-  db.sort();
   // no of suggestions
   var limit = 10;
   var counter = 0;
@@ -251,8 +251,12 @@ function gtranslateGet(input) {
       // add meaning to global objects
       if (langDetect(input) == "en2sn") {
         en2sn[input] = data;
+        en2snKeys.push(input);
+        en2snKeys.sort();
       } else {
         sn2en[input] = data;
+        sn2enKeys.push(input);
+        sn2enKeys.sort();
       }
       suggListAdd(input, "online");
       modalLoadingHide();
