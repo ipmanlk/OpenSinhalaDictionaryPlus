@@ -234,7 +234,7 @@ function datamuseGet(type, word, callback) {
     url = "https://api.datamuse.com/words?max=10&rel_syn=" + word;
   }
 
-  requestSend(url, "get", null,null , callback);
+  requestSend(url, "get", null, null, callback);
 }
 
 // google translate api calls
@@ -327,8 +327,8 @@ function osdpReport(word, meaning) {
   var test = (/^(([\w\d]+)([\s-])([\w\d]+)|([\w\d]+))$/.test(word));
   if (test) {
     var url = "https://www.navinda.xyz/osdb/api/";
-    var data = {"action":"word_add", "word": word, "meanings": meaning[0]};
-    
+    var data = { "action": "word_add", "word": word, "meanings": meaning[0] };
+
     requestSend(url, "post", data, null, function (data) {
       if (data == 1) toastShow("Word has been reported to the developer!");
     });
@@ -349,9 +349,43 @@ function requestSend(url, type, data, input, callback) {
     success: function (data) {
       callback(data);
     },
-    error: function() {
+    error: function () {
       toastShow("Request failed!");
       modalLoadingHide();
     }
   });
+}
+
+// translator show
+function tlatorShow() {
+  var msg = "This translator service uses third-party sources, hence does not guarantee the accuracy or completeness at all times. Also, this service does not function offline and your use of this service may be subject to data charges depending on your data plan with your service provider."
+  ons.notification.confirm(msg)
+  .then(function(response) {
+    if (response == 1) {
+      fn.load('translator.html');
+    }
+  });
+}
+
+// translator translate
+function tlatorTranslate() {
+  var inputText = $("#txtTranslatorInput").val();
+  if (!isNullOrEmpty(inputText) && onlineCheck()) {
+    $("#btnTranslatorRun").prop("disabled", true);
+    $("#txtTranslatorOutput").fadeOut();
+
+    requestSend("http://s1.navinda.xyz:3000/osdp",
+    "post",
+    {text: inputText},
+    null,
+    function (stringData) {
+      var data = JSON.parse(stringData);
+      $("#txtTranslatorOutput").val(data[0]);
+      $("#btnTranslatorRun").prop("disabled", false);
+      $("#txtTranslatorOutput").fadeIn();
+    }
+  );
+  } else {
+    toastShow("Unable to translate text.");
+  }
 }

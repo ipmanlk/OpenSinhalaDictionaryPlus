@@ -25,8 +25,15 @@
       margin-top: 0;
       padding-top: 0;
     }
+    .translator-textarea {
+      width: 100%;
+    }
+    .translator-button {
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
   </style>
-</head>
+</head> 
 
 <body>
   <!-- side menu (slider) -->
@@ -36,7 +43,10 @@
         <img src="./img/back.jpeg" style="width:100%">
         <ons-list>
           <ons-list-item onclick="fn.load('main.html')" tappable>
-            Home
+            Dictionary
+          </ons-list-item>
+          <ons-list-item onclick="tlatorShow()" tappable>
+            Translator
           </ons-list-item>
           <ons-list-item onclick="aboutShow()" tappable>
             About
@@ -149,6 +159,30 @@
 
             </div>
           </ons-list>
+        </div>
+      </ons-card>
+    </ons-page>
+  </template>
+
+  <!-- show sinhala def on english word -->
+  <template id="translator.html">
+    <ons-page>
+      <ons-toolbar>
+        <div class="left">
+          <ons-toolbar-button onclick="fn.load('main.html');currentPage='main';">
+            <ons-icon icon="md-arrow-back"></ons-icon>
+          </ons-toolbar-button>
+        </div>
+        <div class="center">
+          Translator
+        </div>
+      </ons-toolbar>
+
+      <ons-card>
+        <div class="content">
+          <textarea id="txtTranslatorInput" class="textarea translator-textarea" rows="10" placeholder="Type your English or Sinhala text here. සිංහල භාෂාවෙන් හෝ ඉංග්‍රීසි භාෂාවෙන් මෙහි ලියන්න."></textarea>
+          <ons-button id="btnTranslatorRun" onclick="tlatorTranslate()" modifier="large" class="translator-button">Translate</ons-button>
+          <textarea id="txtTranslatorOutput" class="textarea translator-textarea" rows="10" placeholder="Translated text will appear here. පරිවර්තනය කරන ලද පාඨ මෙහි දිස් වෙනු ඇත." style="display:none"></textarea>
         </div>
       </ons-card>
     </ons-page>
