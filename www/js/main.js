@@ -54,21 +54,21 @@ function dbLoad(data, db) {
   sn2en !== null ? modalLoadingHide() : null;
 }
 
-// resolve file system urls and call readJsonFile
+// resolve file system urls and call jsonFileRead
 function dbRead() {
   modalLoadingShow("Loading Database");
   var dben2sn = cordova.file.applicationDirectory + "www/db/en2sn.json";
   var dbsn2en = cordova.file.applicationDirectory + "www/db/sn2en.json";
   resolveLocalFileSystemURL(dben2sn, function (fileEntry) {
-    readJsonFile(fileEntry, dbLoad, "en2sn");
+    jsonFileRead(fileEntry, dbLoad, "en2sn");
   }, dbLoadOnError);
   resolveLocalFileSystemURL(dbsn2en, function (fileEntry) {
-    readJsonFile(fileEntry, dbLoad, "sn2en");
+    jsonFileRead(fileEntry, dbLoad, "sn2en");
   }, dbLoadOnError);
 }
 
 // read .json files uisng file plugin
-function readJsonFile(fileEntry, callback, db) {
+function jsonFileRead(fileEntry, callback, db) {
   fileEntry.file(function (file) {
     var reader = new FileReader();
     reader.onloadend = function () {
