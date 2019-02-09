@@ -167,7 +167,7 @@ function snDefShow(input) {
     $("#titleSd").text(input);
     var meanings = en2sn[input];
     for (var i = 0; i < meanings.length; i++) {
-      $('#listSnMeanSd').append("<ons-list-item>" + meanings[i] + '<div class="right"><ons-icon size="20px" onclick="textCopy(\'' + meanings[i] + '\');" icon="md-copy" class="list-item__icon"></ons-icon></div>' + "</ons-list-item>");
+      $('#listSnMeanSd').append("<ons-list-item>" + meanings[i] + '<div class="right"><ons-icon size="20px" onclick="textCopy(this);" icon="md-copy" class="list-item__icon"></ons-icon></div>' + "</ons-list-item>");
     }
     // call for datamuse
     if (onlineCheck()) {
@@ -183,7 +183,7 @@ function enDefShow(input) {
     $("#titleEd").text(input);
     var meanings = sn2en[input];
     for (var i = 0; i < meanings.length; i++) {
-      $('#listEnMeanEd').append("<ons-list-item>" + meanings[i] + '<div class="right"><ons-icon size="20px" onclick="textCopy(\'' + meanings[i] + '\');" icon="md-copy" class="list-item__icon"></ons-icon></div>' + "</ons-list-item>");
+      $('#listEnMeanEd').append("<ons-list-item>" + meanings[i] + '<div class="right"><ons-icon size="20px" onclick="textCopy(this);" icon="md-copy" class="list-item__icon"></ons-icon></div>' + "</ons-list-item>");
     }
     datamuseGet("def", sn2en[input][0], enDefFill);
     snSynFill();
@@ -300,7 +300,8 @@ function TTSspeak(input) {
 }
 
 // Copy to clipboard
-function textCopy(text) {
+function textCopy(element) {
+  var text = $(element).parent().parent().text();
   cordova.plugins.clipboard.copy(text);
   toastShow("Text copied to clipboard!");
 }
