@@ -86,7 +86,7 @@ function dbLoadOnError(e) {
 
 function modalLoadingShow(txt) {
   var modal = $('#modalLoading');
-  $("#modalLoadingMsg").text(txt);
+  $("#modalLoadingMsg").text(" " + txt);
   modal.show();
 }
 
