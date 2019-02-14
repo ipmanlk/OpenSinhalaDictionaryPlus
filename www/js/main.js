@@ -240,7 +240,7 @@ function datamuseGet(type, word, callback) {
 // google translate api calls
 function gtranslateGet(input) {
   modalLoadingShow("Getting results...");
-  var url = "http://s1.navinda.xyz:3000/osdp?word=" + input;
+  var url = "https://osdp.herokuapp.com?word=" + input;
   $("#listSugg").empty();
 
   function output(stringData) {
@@ -375,7 +375,7 @@ function tlatorTranslate() {
     $("#btnTranslatorRun").prop("disabled", true);
     $("#txtTranslatorOutput").fadeOut();
 
-    requestSend("http://s1.navinda.xyz:3000/osdp",
+    requestSend("https://osdp.herokuapp.com",
     "post",
     {text: inputText},
     null,
