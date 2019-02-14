@@ -1,0 +1,17 @@
+<ons-page>
+    <ons-toolbar>
+      <div class="left">
+        <ons-toolbar-button onclick="fn.open()" id="toolbar-menu-toggler">
+          <ons-icon icon="md-menu"></ons-icon>
+        </ons-toolbar-button>
+      </div>
+      <div class="center">
+        Open Sinhala Dictionary Plus
+      </div>
+    </ons-toolbar>
+    <input id="txtSearchBoxM" onkeyup="suggShow(this)" onpaste="suggShow(this)" type="search" value="" placeholder="Search"
+      class="search-input search-input--material">
+    <div id="listSugg" class="list-sugg">
+
+    </div>
+  </ons-page>

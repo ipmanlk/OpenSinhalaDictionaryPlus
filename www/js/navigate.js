@@ -6,7 +6,7 @@ function onBackKeyDown(e) {
   switch (currentPage) {
     case "def":
 		fn.load('main.html');
-		currentPage = "main";
+		currentPage = "search";
     break;
     default:
     ons.notification.confirm('Do you really want to close the app?') 

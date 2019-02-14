@@ -96,7 +96,7 @@ function modalLoadingHide() {
 }
 
 function suggShow(element) {
-  $('#listSuggM').empty();
+  $('#listSugg').empty();
   var input = inputClean($(element).val());
   if (!isNullOrEmpty(input)) wordSearch(input);
 }
@@ -118,8 +118,8 @@ function wordSearch(input) {
   // if there are no sugestions prompt for google translate
   if (counter == 0 && onlineCheck()) {
     // clean if there are any online suggestions
-    $("#listSuggM").empty();
-    $("#listSuggM").append('<ons-card onclick="gtranslateGet(\'' + input + '\')"><div class="content"><h4>Sorry!. I couldn\'t find anything on that. Click here to get results from online.</h4></div></ons-card>');
+    $("#listSugg").empty();
+    $("#listSugg").append('<ons-card onclick="gtranslateGet(\'' + input + '\')"><div class="content"><h4>Sorry!. I couldn\'t find anything on that. Click here to get results from online.</h4></div></ons-card>');
   }
 }
 
@@ -141,7 +141,7 @@ function suggListAdd(word, type) {
   } else {
     listItem = '<ons-card onclick="meaningShow(' + "'" + word + "'" + ')"><div class="content">' + word + '<span style="float: right"><ons-icon icon="md-translate"></ons-icon></span></div></ons-card>';
   }
-  $('#listSuggM').append(listItem);
+  $('#listSugg').append(listItem);
 }
 
 function inputClean(input) {
@@ -163,11 +163,11 @@ function langDetect(txt) {
 // tasks not releated to main.html template
 function snDefShow(input) {
   var content = document.querySelector('ons-splitter-content');
-  content.load('snDef.html').then(function () {
-    $("#titleSd").text(input);
+  content.load('./views/snDef.html').then(function () {
+    $("#title").text(input);
     var meanings = en2sn[input];
     for (var i = 0; i < meanings.length; i++) {
-      $('#listSnMeanSd').append("<ons-list-item>" + meanings[i] + '<div class="right"><ons-icon size="20px" onclick="textCopy(this);" icon="md-copy" class="list-item__icon"></ons-icon></div>' + "</ons-list-item>");
+      $('#listSnMean').append("<ons-list-item>" + meanings[i] + '<div class="right"><ons-icon size="20px" onclick="textCopy(this);" icon="md-copy" class="list-item__icon"></ons-icon></div>' + "</ons-list-item>");
     }
     // call for datamuse
     if (onlineCheck()) {
@@ -179,11 +179,11 @@ function snDefShow(input) {
 
 function enDefShow(input) {
   var content = document.querySelector('ons-splitter-content');
-  content.load('enDef.html').then(function () {
-    $("#titleEd").text(input);
+  content.load('./views/enDef.html').then(function () {
+    $("#title").text(input);
     var meanings = sn2en[input];
     for (var i = 0; i < meanings.length; i++) {
-      $('#listEnMeanEd').append("<ons-list-item>" + meanings[i] + '<div class="right"><ons-icon size="20px" onclick="textCopy(this);" icon="md-copy" class="list-item__icon"></ons-icon></div>' + "</ons-list-item>");
+      $('#listEnMean').append("<ons-list-item>" + meanings[i] + '<div class="right"><ons-icon size="20px" onclick="textCopy(this);" icon="md-copy" class="list-item__icon"></ons-icon></div>' + "</ons-list-item>");
     }
     datamuseGet("def", sn2en[input][0], enDefFill);
     snSynFill();
@@ -241,7 +241,7 @@ function datamuseGet(type, word, callback) {
 function gtranslateGet(input) {
   modalLoadingShow("Getting results...");
   var url = "http://s1.navinda.xyz:3000/osdp?word=" + input;
-  $("#listSuggM").empty();
+  $("#listSugg").empty();
 
   function output(stringData) {
     // parse string data
@@ -363,7 +363,7 @@ function tlatorShow() {
   ons.notification.confirm(msg)
   .then(function(response) {
     if (response == 1) {
-      fn.load('translator.html');
+      fn.load('./views/translator.html');
     }
   });
 }

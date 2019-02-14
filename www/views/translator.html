@@ -1,0 +1,20 @@
+<ons-page>
+    <ons-toolbar>
+      <div class="left">
+        <ons-toolbar-button onclick="fn.load('./views/search.html');currentPage='search';">
+          <ons-icon icon="md-arrow-back"></ons-icon>
+        </ons-toolbar-button>
+      </div>
+      <div class="center">
+        Translator
+      </div>
+    </ons-toolbar>
+
+    <ons-card>
+      <div class="content">
+        <textarea id="txtTranslatorInput" class="textarea translator-textarea" rows="10" placeholder="Type your English or Sinhala text here. සිංහල භාෂාවෙන් හෝ ඉංග්‍රීසි භාෂාවෙන් මෙහි ලියන්න."></textarea>
+        <ons-button id="btnTranslatorRun" onclick="tlatorTranslate()" modifier="large" class="translator-button">Translate</ons-button>
+        <textarea id="txtTranslatorOutput" class="textarea translator-textarea" rows="10" placeholder="Translated text will appear here. පරිවර්තනය කරන ලද පාඨ මෙහි දිස් වෙනු ඇත." style="display:none"></textarea>
+      </div>
+    </ons-card>
+  </ons-page>

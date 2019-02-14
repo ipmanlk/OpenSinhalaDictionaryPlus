@@ -42,7 +42,7 @@
       <ons-page>
         <img src="./img/back.jpeg" style="width:100%">
         <ons-list>
-          <ons-list-item onclick="fn.load('main.html')" tappable>
+          <ons-list-item onclick="fn.load('./views/search.html')" tappable>
             Dictionary
           </ons-list-item>
           <ons-list-item onclick="tlatorShow()" tappable>
@@ -57,136 +57,8 @@
         </ons-list>
       </ons-page>
     </ons-splitter-side>
-    <ons-splitter-content id="content" page="main.html"></ons-splitter-content>
+    <ons-splitter-content id="content" page="./views/search.html"></ons-splitter-content>
   </ons-splitter>
-
-  <!-- main page -->
-  <template id="main.html">
-    <ons-page>
-      <ons-toolbar>
-        <div class="left">
-          <ons-toolbar-button onclick="fn.open()" id="toolbar-menu-toggler">
-            <ons-icon icon="md-menu"></ons-icon>
-          </ons-toolbar-button>
-        </div>
-        <div class="center">
-          Open Sinhala Dictionary Plus
-        </div>
-      </ons-toolbar>
-      <input id="txtSearchBoxM" onkeyup="suggShow(this)" onpaste="suggShow(this)" type="search" value="" placeholder="Search"
-        class="search-input search-input--material">
-      <div id="listSuggM" class="list-sugg-m">
-
-      </div>
-    </ons-page>
-  </template>
-
-  <!-- show english def of sinhala word -->
-  <template id="enDef.html">
-    <ons-page>
-      <ons-toolbar>
-        <div class="left">
-          <ons-toolbar-button onclick="fn.load('main.html');currentPage='main';">
-            <ons-icon icon="md-arrow-back"></ons-icon>
-          </ons-toolbar-button>
-        </div>
-        <div id="titleEd" class="center">
-          <!-- title goes here -->
-        </div>
-      </ons-toolbar>
-
-      <ons-card>
-        <div class="content">
-          <ons-list>
-            <ons-list-header>English Meanings</ons-list-header>
-            <div id="listEnMeanEd">
-              <!-- list goes here -->
-            </div>
-          </ons-list>
-          <ons-list style="margin-top:15px; display: none;">
-            <ons-list-header>English Definitions</ons-list-header>
-            <div class="listEnDef">
-
-            </div>
-          </ons-list>
-          <ons-list style="margin-top:15px; display: none;">
-            <ons-list-header>Sinhala Synonyms</ons-list-header>
-            <div class="listSnSyn">
-
-            </div>
-          </ons-list>
-        </div>
-      </ons-card>
-    </ons-page>
-  </template>
-
-  <!-- show sinhala def on english word -->
-  <template id="snDef.html">
-    <ons-page>
-      <ons-toolbar>
-        <div class="left">
-          <ons-toolbar-button onclick="fn.load('main.html');currentPage='main';">
-            <ons-icon icon="md-arrow-back"></ons-icon>
-          </ons-toolbar-button>
-        </div>
-        <div id="titleSd" class="center">
-          <!-- title goes here -->
-        </div>
-        <div class="right">
-          <ons-toolbar-button onclick="TTSspeak(selectedWord);" id="toolbar-menu-toggler">
-            <ons-icon icon="ion-volume-high"></ons-icon>
-          </ons-toolbar-button>
-        </div>
-      </ons-toolbar>
-
-      <ons-card>
-        <div class="content">
-          <ons-list>
-            <ons-list-header>Sinhala Meanings</ons-list-header>
-            <div id="listSnMeanSd">
-
-            </div>
-          </ons-list>
-          <ons-list style="margin-top:15px;display:none">
-            <ons-list-header>English Definitions</ons-list-header>
-            <div class="listEnDef">
-
-            </div>
-          </ons-list>
-          <ons-list style="margin-top:15px;display:none">
-            <ons-list-header>English Synonyms</ons-list-header>
-            <div class="listEnSyn">
-
-            </div>
-          </ons-list>
-        </div>
-      </ons-card>
-    </ons-page>
-  </template>
-
-  <!-- show sinhala def on english word -->
-  <template id="translator.html">
-    <ons-page>
-      <ons-toolbar>
-        <div class="left">
-          <ons-toolbar-button onclick="fn.load('main.html');currentPage='main';">
-            <ons-icon icon="md-arrow-back"></ons-icon>
-          </ons-toolbar-button>
-        </div>
-        <div class="center">
-          Translator
-        </div>
-      </ons-toolbar>
-
-      <ons-card>
-        <div class="content">
-          <textarea id="txtTranslatorInput" class="textarea translator-textarea" rows="10" placeholder="Type your English or Sinhala text here. සිංහල භාෂාවෙන් හෝ ඉංග්‍රීසි භාෂාවෙන් මෙහි ලියන්න."></textarea>
-          <ons-button id="btnTranslatorRun" onclick="tlatorTranslate()" modifier="large" class="translator-button">Translate</ons-button>
-          <textarea id="txtTranslatorOutput" class="textarea translator-textarea" rows="10" placeholder="Translated text will appear here. පරිවර්තනය කරන ලද පාඨ මෙහි දිස් වෙනු ඇත." style="display:none"></textarea>
-        </div>
-      </ons-card>
-    </ons-page>
-  </template>
 
   <!-- loading screen -->
   <ons-modal direction="up" id="modalLoading">
