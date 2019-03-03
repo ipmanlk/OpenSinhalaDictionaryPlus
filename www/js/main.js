@@ -185,7 +185,9 @@ function enDefShow(input) {
     for (var i = 0; i < meanings.length; i++) {
       $('#listEnMean').append("<ons-list-item>" + meanings[i] + '<div class="right"><ons-icon size="20px" onclick="textCopy(this);" icon="md-copy" class="list-item__icon"></ons-icon></div>' + "</ons-list-item>");
     }
-    datamuseGet("def", sn2en[input][0], enDefFill);
+    if (onlineCheck()) {
+      datamuseGet("def", sn2en[input][0], enDefFill);
+    }
     snSynFill();
   })
 }
@@ -342,6 +344,7 @@ function requestSend(url, type, data, input, callback) {
   // data = data to be send
   // input = input word by the user 
   // callback = function to run after success 
+  $("#progressBar").fadeIn();
   $.ajax({
     url: url,
     type: type,
@@ -349,10 +352,12 @@ function requestSend(url, type, data, input, callback) {
     timeout: 30000,
     success: function (data) {
       callback(data);
+      $("#progressBar").fadeOut();
     },
     error: function () {
       toastShow("Request failed!");
       modalLoadingHide();
+      $("#progressBar").fadeOut();
     }
   });
 }
