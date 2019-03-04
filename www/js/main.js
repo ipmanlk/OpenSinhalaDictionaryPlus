@@ -80,7 +80,9 @@ function jsonFileRead(fileEntry, callback, db) {
 
 // database read/load error handle
 function dbLoadOnError(e) {
-  alert("Unable to load the database : " + e);
+  ons.notification.alert("Unable to load the database : " + e).then(function() {
+    exitApp();
+  });
 }
 
 
