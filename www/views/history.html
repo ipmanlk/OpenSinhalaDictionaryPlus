@@ -1,0 +1,22 @@
+<ons-page>
+    <ons-toolbar>
+        <div class="left">
+            <ons-toolbar-button onclick="fn.load('./views/search.html');currentPage='search';">
+                <ons-icon icon="md-arrow-back"></ons-icon>
+            </ons-toolbar-button>
+        </div>
+        <div class="center">
+            History
+        </div>
+        <div class="right">
+            <ons-toolbar-button onclick="historyClear()" id="toolbar-menu-toggler">
+              <ons-icon icon="ion-flame"></ons-icon>
+            </ons-toolbar-button>
+          </div>
+    </ons-toolbar>
+
+
+    <ons-list id="listHistory">
+
+    </ons-list>
+</ons-page>

@@ -80,7 +80,7 @@ function jsonFileRead(fileEntry, callback, db) {
 
 // database read/load error handle
 function dbLoadOnError(e) {
-  ons.notification.alert("Unable to load the database : " + e).then(function() {
+  ons.notification.alert("Unable to load the database : " + e).then(function () {
     exitApp();
   });
 }
@@ -133,6 +133,9 @@ function meaningShow(input) {
   }
   selectedWord = input;
   currentPage = "def";
+
+  // save history
+  historySave(input);
 }
 
 function suggListAdd(word, type) {
@@ -319,6 +322,39 @@ function aboutShow() {
   $('#modalAbout').show();
 }
 
+function historyShow() {
+  content.load('./views/history.html').then(function () {
+    var menu = document.getElementById('menu');
+    menu.close();
+
+    if (localStorage.getItem("history")) {
+      var history = JSON.parse(localStorage.getItem("history"));
+      history = history.reverse();
+
+      for (var i = 0; i < history.length; i++) {
+        var word = history[i];
+        $('#listHistory').append("<ons-list-item onclick=\"meaningShow(\'" + word + "\')\">" + word + "</ons-list-item>");
+      }
+    }
+  });
+}
+
+function historySave(word) {
+  var history = [];
+  if (localStorage.getItem("history")) {
+    history = JSON.parse(localStorage.getItem("history"));
+    history.push(word);
+  } else {
+    history.push(word);
+  }
+  localStorage.setItem("history", JSON.stringify(history));
+}
+
+function historyClear() {
+  localStorage.setItem("history", JSON.stringify([]));
+  historyShow();
+}
+
 // online check
 function onlineCheck() {
   var networkState = navigator.connection.type;
@@ -368,11 +404,11 @@ function requestSend(url, type, data, input, callback) {
 function tlatorShow() {
   var msg = "This translator service uses third-party sources, hence does not guarantee the accuracy or completeness at all times. Also, this service does not function offline and your use of this service may be subject to data charges depending on your data plan with your service provider."
   ons.notification.confirm(msg)
-  .then(function(response) {
-    if (response == 1) {
-      fn.load('./views/translator.html');
-    }
-  });
+    .then(function (response) {
+      if (response == 1) {
+        fn.load('./views/translator.html');
+      }
+    });
 }
 
 // translator translate
@@ -383,16 +419,16 @@ function tlatorTranslate() {
     $("#txtTranslatorOutput").fadeOut();
 
     requestSend("https://osdp.herokuapp.com",
-    "post",
-    {text: inputText},
-    null,
-    function (stringData) {
-      var data = JSON.parse(stringData);
-      $("#txtTranslatorOutput").val(data[0]);
-      $("#btnTranslatorRun").prop("disabled", false);
-      $("#txtTranslatorOutput").fadeIn();
-    }
-  );
+      "post",
+      { text: inputText },
+      null,
+      function (stringData) {
+        var data = JSON.parse(stringData);
+        $("#txtTranslatorOutput").val(data[0]);
+        $("#btnTranslatorRun").prop("disabled", false);
+        $("#txtTranslatorOutput").fadeIn();
+      }
+    );
   } else {
     toastShow("Unable to translate text.");
   }
