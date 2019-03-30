@@ -16,7 +16,7 @@ function tlatorShow() {
       $("#btnTranslatorRun").prop("disabled", true);
       $("#txtTranslatorOutput").fadeOut();
   
-      requestSend("https://osdp.herokuapp.com",
+      requestSend("http://35.211.9.240:3001/",
         "post",
         { text: inputText },
         null,

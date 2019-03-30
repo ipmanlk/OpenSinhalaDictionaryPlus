@@ -288,7 +288,7 @@ function osdpReport(word, meaning) {
   // regex to check if word is not a sentence
   var test = (/^(([\w\d]+)([\s-])([\w\d]+)|([\w\d]+))$/.test(word));
   if (test) {
-    var url = "https://www.navinda.xyz/osdb/api/";
+    var url = "https://osdb.navinda.xyz/api";
     var data = { "action": "word_add", "word": word, "meanings": meaning[0] };
 
     requestSend(url, "post", data, null, function (data) {

@@ -13,7 +13,7 @@ function datamuseGet(type, word, callback) {
 // google translate api calls
 function gtranslateGet(input) {
     modalLoadingShow("Getting results...");
-    var url = "https://osdp.herokuapp.com?word=" + input;
+    var url = "http://35.211.9.240:3001/?word=" + input;
     $("#listSugg").empty();
 
     function output(stringData) {
@@ -31,7 +31,7 @@ function gtranslateGet(input) {
                 sn2enKeys.push(input);
                 sn2enKeys.sort();
             }
-            suggListAdd(input, "online");
+            suggListAppend(input, "online");
             modalLoadingHide();
             // send report to dev
             osdpReport(input, data);
