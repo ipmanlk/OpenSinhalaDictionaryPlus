@@ -208,6 +208,8 @@ function defShowEn(data) {
       def = defs[i].substr(defs[i].indexOf(' ') + 1);
       $(".listDefinitions").append("<ons-list-item>" + pos + def + "</ons-list-item>");
     }
+  } else {
+    $(".listDefinitions").append("<ons-list-item>Sorry!. No results found.</ons-list-item>");
   }
 }
 
@@ -216,6 +218,8 @@ function synShowEn(syns) {
     for (var i = 0; i < syns.length; i++) {
       $(".listSynonyms").append("<ons-list-item>" + syns[i].word + '<div class="right"><ons-icon onclick="TTSspeak(\'' + syns[i].word + '\');" icon="ion-volume-high" class="list-item__icon"></ons-icon></div>' + "</ons-list-item>");
     }
+  } else {
+    $(".listSynonyms").append("<ons-list-item>Sorry!. No results found.</ons-list-item>");
   }
 }
 
@@ -226,6 +230,8 @@ function synShowSn() {
     for (var i = 0; i < snSyns.length; i++) {
       $(".listSynonyms").append("<ons-list-item>" + snSyns[i] + "</ons-list-item>");
     }
+  } else {
+    $(".listSynonyms").append("<ons-list-item>Sorry!. No results found.</ons-list-item>");
   }
 }
 
