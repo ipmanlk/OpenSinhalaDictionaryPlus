@@ -198,7 +198,7 @@ function meaningShowEn(input) {
 }
 
 function defShowEn(data) {
-  if (!isNullOrEmpty(data)) {
+  if (!isNullOrEmpty(data) && data[0].defs) {
     var defs = data[0].defs;
     var def; // definition
     var pos; // part of speech
