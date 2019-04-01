@@ -1,40 +1,65 @@
-    <ons-page>
-      <ons-toolbar>
-        <div class="left">
-          <ons-toolbar-button onclick="fn.load('./views/search.html');currentPage='search';">
-            <ons-icon icon="md-arrow-back"></ons-icon>
-          </ons-toolbar-button>
-        </div>
-        <div id="title" class="center">
-          <!-- title goes here -->
-        </div>
-        <div class="right">
-          <ons-toolbar-button onclick="TTSspeak(selectedWord);" id="toolbar-menu-toggler">
-            <ons-icon icon="ion-volume-high"></ons-icon>
-          </ons-toolbar-button>
-        </div>
-      </ons-toolbar>
-      <ons-progress-bar indeterminate id="progressBar" style="display:none"></ons-progress-bar>
-      <ons-card>
-        <div class="content">
-          <ons-list>
-            <ons-list-header>Sinhala Meanings</ons-list-header>
-            <div class="listMeanings" id="listMeanings">
+<ons-page>
+  <ons-toolbar>
+    <div class="left">
+      <ons-toolbar-button onclick="fn.load('./views/search.html');currentPage='search';">
+        <ons-icon icon="md-arrow-back"></ons-icon>
+      </ons-toolbar-button>
+    </div>
+    <div id="title" class="center">
+      <!-- title goes here -->
+    </div>
+    <div class="right">
+      <ons-toolbar-button onclick="TTSspeak(selectedWord);" id="toolbar-menu-toggler">
+        <ons-icon icon="ion-volume-high"></ons-icon>
+      </ons-toolbar-button>
+    </div>
+  </ons-toolbar>
 
-            </div>
-          </ons-list>
-          <ons-list style="margin-top:15px;display:none">
-            <ons-list-header>English Definitions</ons-list-header>
-            <div class="listDefinitions">
+  <ons-progress-bar indeterminate id="progressBar" style="display:none"></ons-progress-bar>
 
-            </div>
-          </ons-list>
-          <ons-list style="margin-top:15px;display:none">
-            <ons-list-header>English Synonyms</ons-list-header>
-            <div class="listSynonyms">
+  <div class="tabbar bottom-bar" style="position:fixed">
+    <label class="tabbar__item" onclick="tabSwitch('#listMeanings')">
+      <input type="radio" name="top-tabbar-b" checked="checked">
+      <button class="tabbar__button tabbar--top-border__button">
+        Sinhala
+      </button>
+    </label>
 
-            </div>
-          </ons-list>
+    <label class="tabbar__item" onclick="tabSwitch('#listDefinitions')">
+      <input type="radio" name="top-tabbar-b">
+      <button class="tabbar__button tabbar--top-border__button">
+        English
+      </button>
+    </label>
+
+    <label class="tabbar__item" onclick="tabSwitch('#listSynonyms')">
+      <input type="radio" name="top-tabbar-b">
+      <button class="tabbar__button tabbar--top-border__button">
+        Synonyms
+      </button>
+    </label>
+  </div>
+
+  <ons-card class="no-padding" style="margin-bottom: 60px;">
+    <div class="content">
+      <ons-list>
+        <ons-list-header>Sinhala Meanings</ons-list-header>
+        <div class="listMeanings" id="listMeanings">
+
         </div>
-      </ons-card>
-    </ons-page>
+      </ons-list>
+      <ons-list style="display: none">
+        <ons-list-header>English Definitions</ons-list-header>
+        <div class="listDefinitions" id="listDefinitions">
+
+        </div>
+      </ons-list>
+      <ons-list style="display:none">
+        <ons-list-header>English Synonyms</ons-list-header>
+        <div class="listSynonyms" id="listSynonyms">
+
+        </div>
+      </ons-list>
+    </div>
+  </ons-card>
+</ons-page>
