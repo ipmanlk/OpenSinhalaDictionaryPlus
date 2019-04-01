@@ -9,25 +9,50 @@
         <!-- title goes here -->
       </div>
     </ons-toolbar>
+
     <ons-progress-bar indeterminate id="progressBar" style="display:none"></ons-progress-bar>
-    <ons-card>
+
+    <div class="tabbar bottom-bar" style="position:fixed">
+      <label class="tabbar__item" onclick="tabSwitch('#listMeanings')">
+        <input type="radio" name="top-tabbar-b" checked="checked">
+        <button class="tabbar__button tabbar--top-border__button">
+          Meanings
+        </button>
+      </label>
+  
+      <label class="tabbar__item" onclick="tabSwitch('#listDefinitions')">
+        <input type="radio" name="top-tabbar-b">
+        <button class="tabbar__button tabbar--top-border__button">
+          Definitions
+        </button>
+      </label>
+  
+      <label class="tabbar__item" onclick="tabSwitch('#listSynonyms')">
+        <input type="radio" name="top-tabbar-b">
+        <button class="tabbar__button tabbar--top-border__button">
+          Synonyms
+        </button>
+      </label>
+    </div>
+  
+    <ons-card class="no-padding" style="margin-bottom: 60px;">
       <div class="content">
         <ons-list>
           <ons-list-header>English Meanings</ons-list-header>
-          <div id=listMeanings">
-            <!-- list goes here -->
+          <div class="listMeanings" id="listMeanings">
+  
           </div>
         </ons-list>
-        <ons-list style="margin-top:15px; display: none;">
+        <ons-list style="display: none">
           <ons-list-header>English Definitions</ons-list-header>
-          <div class="listDefinitions">
-
+          <div class="listDefinitions" id="listDefinitions">
+  
           </div>
         </ons-list>
-        <ons-list style="margin-top:15px; display: none;">
+        <ons-list style="display:none">
           <ons-list-header>Sinhala Synonyms</ons-list-header>
-          <div class="listSynonyms">
-
+          <div class="listSynonyms" id="listSynonyms">
+  
           </div>
         </ons-list>
       </div>
