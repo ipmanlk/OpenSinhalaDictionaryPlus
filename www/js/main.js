@@ -178,6 +178,9 @@ function meaningShowSn(input) {
     if (onlineCheck()) {
       datamuseGet("def", input, defShowEn);
       datamuseGet("syn", input, synShowEn);
+    } else {
+      $(".listSynonyms").append("<ons-list-item>You're offline. Please connect to the internet.</ons-list-item>");
+      $(".listDefinitions").append("<ons-list-item>You're offline. Please connect to the internet.</ons-list-item>");
     }
   });
 }
@@ -192,6 +195,8 @@ function meaningShowEn(input) {
     }
     if (onlineCheck()) {
       datamuseGet("def", sn2en[input][0], defShowEn);
+    } else {
+      $(".listDefinitions").append("<ons-list-item>You're offline. Please connect to the internet.</ons-list-item>");
     }
     synShowSn();
   })
