@@ -153,7 +153,7 @@ const suggListAppend = (word, type) => {
   if (type == "offline") {
     listItem = `<ons-card onclick="meaningShow('${word}')"><div class="content">${word}</div></ons-card>`;
   } else {
-    listItem = `<ons-card onclick="meaningShow('${word}')"><div class="content">'${word}'<span style="float: right"><ons-icon icon="md-translate"></ons-icon></span></div></ons-card>`;
+    listItem = `<ons-card onclick="meaningShow('${word}')"><div class="content">${word}<span style="float: right"><ons-icon icon="md-translate"></ons-icon></span></div></ons-card>`;
   }
   $('#listSugg').append(listItem);
 }
