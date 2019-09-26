@@ -1,25 +1,22 @@
 // datamuse api calls
-function datamuseGet(type, word, callback) {
-    var url;
-    if (type == "def") {
-        url = "http://api.datamuse.com/words?max=1&md=d&sp=" + word;
-    } else {
-        url = "https://api.datamuse.com/words?max=10&rel_syn=" + word;
-    }
-
-    requestSend(url, "get", null, null, callback);
+const datamuseGet = (word) => {
+    return new Promise((resolve, reject) => {
+        const url = "https://osd-online.appspot.com/datamuse";
+        request(url, "get", { word }).then(res => {
+            resolve(res);
+        }).catch(error => {
+            console.log(error);
+            reject(error);
+        })
+    });
 }
 
 // google translate api calls
-function gtranslateGet(input) {
+const gtranslateGet = (input) => {
     modalLoadingShow("Getting results...");
-    var url = "http://35.211.9.240:3001/?word=" + input;
     $("#listSugg").empty();
 
-    function output(stringData) {
-        // parse string data
-        var data = JSON.parse(stringData);
-        // check if data is not null & meaning is correct
+    request("https://osd-online.appspot.com/translate", "get", { word: input }).then((data) => {
         if (!isNullOrEmpty(data) && (langDetect(input) !== langDetect(data))) {
             // add meaning to global objects
             if (langDetect(input) == "en2sn") {
@@ -33,37 +30,35 @@ function gtranslateGet(input) {
             }
             suggListAppend(input, "online");
             modalLoadingHide();
-            // send report to dev
-            osdpReport(input, data);
         } else {
             modalLoadingHide();
             ons.notification.alert("Your input is incorrect!. Please check for spelling mistakes.");
         }
-    }
+    }).catch(res => {
+        console.log(res);
+    })
 
-    requestSend(url, "get", null, input, output);
 }
 
-function requestSend(url, type, data, input, callback) {
-    // url = request url
-    // type = request type
-    // data = data to be send
-    // input = input word by the user 
-    // callback = function to run after success 
-    $("#progressBar").fadeIn();
-    $.ajax({
-      url: url,
-      type: type,
-      data: data,
-      timeout: 30000,
-      success: function (data) {
-        callback(data);
-        $("#progressBar").fadeOut();
-      },
-      error: function () {
-        toastShow("Request failed!");
-        modalLoadingHide();
-        $("#progressBar").fadeOut();
-      }
-    });
-  }
+const request = (url, type, data) => {
+    return new Promise((resolve, reject) => {
+        $("#progressBar").fadeIn();
+        $.ajax({
+            url: url,
+            type: type,
+            data: data,
+            timeout: 30000,
+            dataType: "json",
+            success: function (res) {
+                $("#progressBar").fadeOut();
+                resolve(res);
+            },
+            error: function (error) {
+                toastShow("Request failed!");
+                modalLoadingHide();
+                $("#progressBar").fadeOut();
+                reject(error);
+            }
+        });
+    })
+}

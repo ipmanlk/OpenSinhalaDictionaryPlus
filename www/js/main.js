@@ -1,46 +1,41 @@
-'use strict';
-var sn2en = null;
-var en2sn = null;
-var sn2enKeys = [];
-var en2snKeys = [];
-var selectedWord = null;
+let sn2en = null;
+let en2sn = null;
+let sn2enKeys = [];
+let en2snKeys = [];
+let selectedWord = null;
 
 // variable for handling back button
-var currentPage = null;
+let currentPage = null;
 
 // when onsen ui ready
-ons.ready(function () {
-  init();
-});
-
-function init() {
+ons.ready(() => {
   onsenInit();
   onsenSlideBarInit();
   dbRead();
-}
+});
 
 //  onsen ui native code
-function onsenInit() {
+const onsenInit = () => {
   ons.disableDeviceBackButtonHandler();
+  document.addEventListener("backbutton", onBackKeyDown, false);
 }
 
-function onsenSlideBarInit() {
-  // handle slide menu (code from onsen ui)
+const onsenSlideBarInit = () => {
   window.fn = {};
-  window.fn.open = function () {
-    var menu = document.getElementById('menu');
+  window.fn.open = () => {
+    let menu = document.getElementById('menu');
     menu.open();
   };
-  window.fn.load = function (page) {
-    var content = document.getElementById('content');
-    var menu = document.getElementById('menu');
+  window.fn.load = (page) => {
+    let content = document.getElementById('content');
+    let menu = document.getElementById('menu');
     content.load(page)
       .then(menu.close.bind(menu));
   };
 }
 
 // asign json data to global en2sn & sn2en objects
-function dbLoad(data, db) {
+const dbLoad = (data, db) => {
   if (db == "en2sn") {
     en2sn = data;
     en2snKeys = Object.keys(data);
@@ -55,61 +50,76 @@ function dbLoad(data, db) {
 }
 
 // resolve file system urls and call jsonFileRead
-function dbRead() {
+const dbRead = () => {
   modalLoadingShow("Loading Database");
-  var dben2sn = cordova.file.applicationDirectory + "www/db/en2sn.json";
-  var dbsn2en = cordova.file.applicationDirectory + "www/db/sn2en.json";
-  resolveLocalFileSystemURL(dben2sn, function (fileEntry) {
-    jsonFileRead(fileEntry, dbLoad, "en2sn");
-  }, dbLoadOnError);
-  resolveLocalFileSystemURL(dbsn2en, function (fileEntry) {
-    jsonFileRead(fileEntry, dbLoad, "sn2en");
-  }, dbLoadOnError);
+  const dbEn2Sn = cordova.file.applicationDirectory + "www/db/en2sn.json";
+  const dbSn2En = cordova.file.applicationDirectory + "www/db/sn2en.json";
+
+  resolveLocalFileSystemURL(dbEn2Sn, (fileEntry) => {
+    jsonFileRead(fileEntry, "en2sn").then(data => {
+      dbLoad(data.json, data.db);
+    });
+  }, (error) => {
+    dbLoadError(error);
+    reject(error);
+  });
+
+  resolveLocalFileSystemURL(dbSn2En, (fileEntry) => {
+    jsonFileRead(fileEntry, "sn2en").then(data => {
+      dbLoad(data.json, data.db);
+    });
+  }, (error) => {
+    dbLoadError(error);
+    reject(error);
+  });
 }
 
 // read .json files uisng file plugin
-function jsonFileRead(fileEntry, callback, db) {
-  fileEntry.file(function (file) {
-    var reader = new FileReader();
-    reader.onloadend = function () {
-      callback(JSON.parse(this.result), db);
-    };
-    reader.readAsText(file);
-  }, dbLoadOnError);
+const jsonFileRead = (fileEntry, db) => {
+  return new Promise((resolve, reject) => {
+    fileEntry.file((file) => {
+      const reader = new FileReader();
+      reader.onloadend = function () {
+        resolve({ db, json: JSON.parse(this.result) })
+      };
+      reader.readAsText(file);
+    }, (error) => {
+      dbLoadError(error);
+      reject(error);
+    });
+  })
 }
 
-// database read/load error handle
-function dbLoadOnError(e) {
+const dbLoadError = (error) => {
   ons.notification.alert("Unable to load the database : " + e).then(function () {
     exitApp();
   });
 }
 
-
-function modalLoadingShow(txt) {
-  var modal = $('#modalLoading');
+const modalLoadingShow = (txt) => {
+  const modal = $('#modalLoading');
   $("#modalLoadingMsg").text(" " + txt);
   modal.show();
 }
 
-function modalLoadingHide() {
-  var modal = $('#modalLoading');
+const modalLoadingHide = () => {
+  const modal = $('#modalLoading');
   modal.hide();
 }
 
-function suggShow(element) {
+const suggShow = (element) => {
   $('#listSugg').empty();
-  var input = inputClean($(element).val());
+  const input = inputClean($(element).val());
   if (!isNullOrEmpty(input)) wordSearch(input);
 }
 
 //  use to search for words start with n
-function wordSearch(input) {
-  var db;
+const wordSearch = (input) => {
+  let db;
   langDetect(input) == "en2sn" ? db = en2snKeys : db = sn2enKeys;
   // no of suggestions
-  var limit = 10;
-  var counter = 0;
+  const limit = 10;
+  let counter = 0;
   for (var i = 0; i < db.length; i++) {
     if (db[i].startsWith(input)) {
       suggListAppend(db[i], "offline");
@@ -121,15 +131,15 @@ function wordSearch(input) {
   if (counter == 0 && onlineCheck()) {
     // clean if there are any online suggestions
     $("#listSugg").empty();
-    $("#listSugg").append('<ons-card onclick="gtranslateGet(\'' + input + '\')"><div class="content"><h4>Sorry!. I couldn\'t find anything on that. Click here to get results from online.</h4></div></ons-card>');
+    $("#listSugg").append(`<ons-card onclick="gtranslateGet('${input}')"><div class="content"><h4>Sorry!. I couldn't find anything on that. Click here to get results from online.</h4></div></ons-card>`);
   }
 }
 
-function meaningShow(input) {
+const meaningShow = (input) => {
   if (langDetect(input) == "en2sn") {
-    meaningShowSn(input);
+    snMeaningShow(input);
   } else {
-    meaningShowEn(input);
+    enMeaningShow(input);
   }
   selectedWord = input;
   currentPage = "def";
@@ -138,46 +148,45 @@ function meaningShow(input) {
   historySave(input);
 }
 
-function suggListAppend(word, type) {
-  // type - word come from online or offline
-  var listItem;
+const suggListAppend = (word, type) => {
+  let listItem;
   if (type == "offline") {
-    listItem = '<ons-card onclick="meaningShow(' + "'" + word + "'" + ')"><div class="content">' + word + '</div></ons-card>';
+    listItem = `<ons-card onclick="meaningShow('${word}')"><div class="content">${word}</div></ons-card>`;
   } else {
-    listItem = '<ons-card onclick="meaningShow(' + "'" + word + "'" + ')"><div class="content">' + word + '<span style="float: right"><ons-icon icon="md-translate"></ons-icon></span></div></ons-card>';
+    listItem = `<ons-card onclick="meaningShow('${word}')"><div class="content">'${word}'<span style="float: right"><ons-icon icon="md-translate"></ons-icon></span></div></ons-card>`;
   }
   $('#listSugg').append(listItem);
 }
 
-function inputClean(input) {
-  return ((input.trim()).toLowerCase());
-}
+const inputClean = (input) => ((input.trim()).toLowerCase())
 
-function isNullOrEmpty(input) {
-  return jQuery.isEmptyObject(input);
-}
+const isNullOrEmpty = (input) => jQuery.isEmptyObject(input)
 
 // check language
-function langDetect(txt) {
-  var selectedDb;
-  var test = (/^[A-Za-z][\sA-Za-z0-9.\'-]*$/.test(txt));
+const langDetect = (txt) => {
+  let selectedDb;
+  const test = (/^[A-Za-z][\sA-Za-z0-9.\'-]*$/.test(txt));
   test ? selectedDb = "en2sn" : selectedDb = "sn2en";
   return (selectedDb);
 }
 
 // tasks not releated to main.html template
-function meaningShowSn(input) {
-  var content = document.querySelector('ons-splitter-content');
+const snMeaningShow = (input) => {
+  const content = document.querySelector('ons-splitter-content');
   content.load('./views/snMeaning.html').then(function () {
     $("#title").text(input);
-    var meanings = en2sn[input];
-    for (var i = 0; i < meanings.length; i++) {
-      $('.listMeanings').append("<ons-list-item>" + meanings[i] + '<div class="right"><ons-icon size="20px" onclick="textCopy(this);" icon="md-copy" class="list-item__icon"></ons-icon></div>' + "</ons-list-item>");
+    const meanings = en2sn[input];
+    for (let i = 0; i < meanings.length; i++) {
+      $('.listMeanings').append(`<ons-list-item>${meanings[i]}<div class="right"><ons-icon size="20px" onclick="textCopy(this);" icon="md-copy" class="list-item__icon"></ons-icon></div></ons-list-item>`);
     }
     // call for datamuse
     if (onlineCheck()) {
-      datamuseGet("def", input, defShowEn);
-      datamuseGet("syn", input, synShowEn);
+      datamuseGet(input).then(res => {
+        enDefShow(res.defs);
+        enSynShow(res.syns);
+      }).catch(error => {
+        console.log(error);
+      });
     } else {
       $(".listSynonyms").append("<ons-list-item>You're offline. Please connect to the internet.</ons-list-item>");
       $(".listDefinitions").append("<ons-list-item>You're offline. Please connect to the internet.</ons-list-item>");
@@ -185,55 +194,59 @@ function meaningShowSn(input) {
   });
 }
 
-function meaningShowEn(input) {
-  var content = document.querySelector('ons-splitter-content');
+const enMeaningShow = (input) => {
+  const content = document.querySelector('ons-splitter-content');
   content.load('./views/enMeaning.html').then(function () {
     $("#title").text(input);
-    var meanings = sn2en[input];
-    for (var i = 0; i < meanings.length; i++) {
-      $('.listMeanings').append("<ons-list-item>" + meanings[i] + '<div class="right"><ons-icon size="20px" onclick="textCopy(this);" icon="md-copy" class="list-item__icon"></ons-icon></div>' + "</ons-list-item>");
+    const meanings = sn2en[input];
+    for (let i = 0; i < meanings.length; i++) {
+      $('.listMeanings').append(`<ons-list-item>${meanings[i]}<div class="right"><ons-icon size="20px" onclick="textCopy(this);" icon="md-copy" class="list-item__icon"></ons-icon></div></ons-list-item>`);
     }
     if (onlineCheck()) {
-      datamuseGet("def", sn2en[input][0], defShowEn);
+      datamuseGet(meanings[0]).then(res => {
+        enDefShow(res.defs);
+      }).catch(error => {
+        console.log(error);
+      });
     } else {
       $(".listDefinitions").append("<ons-list-item>You're offline. Please connect to the internet.</ons-list-item>");
     }
-    synShowSn();
+    snSynShow();
   })
 }
 
-function defShowEn(data) {
-  if (!isNullOrEmpty(data) && data[0].defs) {
-    var defs = data[0].defs;
-    var def; // definition
-    var pos; // part of speech
-    for (var i = 0; i < defs.length; i++) {
+const enDefShow = (data) => {
+  if (!isNullOrEmpty(data) && data.defs) {
+    const defs = data.defs;
+    let def; // definition
+    let pos; // part of speech
+    for (let i = 0; i < defs.length; i++) {
       pos = defs[i].substr(0, defs[i].indexOf('	'));
-      pos = "(" + datamuseExpandPos(pos) + ") ";
+      pos = `(${datamuseExpandPos(pos)})`;
       def = defs[i].substr(defs[i].indexOf(' ') + 1);
-      $(".listDefinitions").append("<ons-list-item>" + pos + def + "</ons-list-item>");
+      $(".listDefinitions").append(`<ons-list-item>${pos} ${def}</ons-list-item>`);
     }
   } else {
     $(".listDefinitions").append("<ons-list-item>Sorry!. No results found.</ons-list-item>");
   }
 }
 
-function synShowEn(syns) {
+const enSynShow = (syns) => {
   if (!isNullOrEmpty(syns)) {
-    for (var i = 0; i < syns.length; i++) {
-      $(".listSynonyms").append("<ons-list-item>" + syns[i].word + '<div class="right"><ons-icon onclick="TTSspeak(\'' + syns[i].word + '\');" icon="ion-volume-high" class="list-item__icon"></ons-icon></div>' + "</ons-list-item>");
+    for (let i = 0; i < syns.length; i++) {
+      $(".listSynonyms").append(`<ons-list-item>${syns[i].word}<div class="right"><ons-icon onclick="TTSspeak('${syns[i].word}');" icon="ion-volume-high" class="list-item__icon"></ons-icon></div></ons-list-item>`);
     }
   } else {
     $(".listSynonyms").append("<ons-list-item>Sorry!. No results found.</ons-list-item>");
   }
 }
 
-function synShowSn() {
-  var enMeaning = (sn2en[selectedWord][0]).trim();
-  var snSyns = en2sn[enMeaning];
+const snSynShow = () => {
+  const enMeaning = (sn2en[selectedWord][0]).trim();
+  const snSyns = en2sn[enMeaning];
   if (!isNullOrEmpty(snSyns)) {
-    for (var i = 0; i < snSyns.length; i++) {
-      $(".listSynonyms").append("<ons-list-item>" + snSyns[i] + "</ons-list-item>");
+    for (let i = 0; i < snSyns.length; i++) {
+      $(".listSynonyms").append(`<ons-list-item>${snSyns[i]}</ons-list-item>`);
     }
   } else {
     $(".listSynonyms").append("<ons-list-item>Sorry!. No results found.</ons-list-item>");
@@ -241,8 +254,8 @@ function synShowSn() {
 }
 
 // expand part of speech
-function datamuseExpandPos(pos) {
-  var expandedPos;
+const datamuseExpandPos = (pos) => {
+  let expandedPos;
   switch (pos) {
     case "n":
       expandedPos = "noun";
@@ -264,51 +277,33 @@ function datamuseExpandPos(pos) {
 }
 
 // text to speach plugin
-function TTSspeak(input) {
+const TTSspeak = (input) => {
   TTS.speak(input);
-}
+};
 
 // Copy to clipboard
-function textCopy(element) {
-  var text = $(element).parent().parent().text();
+const textCopy = (element) => {
+  const text = $(element).parent().parent().text();
   cordova.plugins.clipboard.copy(text);
   toastShow("Text copied to clipboard!");
 }
 
-function toastShow(msg) {
-  ons.notification.toast(msg, { timeout: 1000, animation: 'ascend' });
-}
+const toastShow = (msg) => ons.notification.toast(msg, { timeout: 1000, animation: 'ascend' })
 
 // about
-function aboutShow() {
-  $('#modalAbout').show();
-}
+const aboutShow = () => $('#modalAbout').show()
 
 // online check
-function onlineCheck() {
-  var networkState = navigator.connection.type;
-  var isOffline = (networkState == Connection.NONE) || (networkState == Connection.UNKNOWN);
+const onlineCheck = () => {
+  const networkState = navigator.connection.type;
+  const isOffline = (networkState == Connection.NONE) || (networkState == Connection.UNKNOWN);
   return !isOffline;
 }
 
-function tabSwitch(id) {
+const tabSwitch = (id) => {
   $("#listMeanings").parent().hide();
   $("#listDefinitions").parent().hide();
   $("#listSynonyms").parent().hide();
 
   $(id).parent().fadeIn();
-}
-
-// report unknown words
-function osdpReport(word, meaning) {
-  // regex to check if word is not a sentence
-  var test = (/^(([\w\d]+)([\s-])([\w\d]+)|([\w\d]+))$/.test(word));
-  if (test) {
-    var url = "https://osdb.navinda.xyz/api";
-    var data = { "action": "word_add", "word": word, "meanings": meaning[0] };
-
-    requestSend(url, "post", data, null, function (data) {
-      if (data == 1) toastShow("Word has been reported to the developer!");
-    });
-  }
 }
