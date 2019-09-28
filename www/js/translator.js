@@ -16,8 +16,12 @@ const tlatorTranslate = () => {
     $("#btnTranslatorRun").prop("disabled", true);
     $("#txtTranslatorOutput").fadeOut();
     request("https://osd-online.appspot.com/translate", "post", { text: inputText }).then(res => {
-      $("#txtTranslatorOutput").val(res[0]);
-      $("#txtTranslatorOutput").fadeIn();
+      if (!res.error) {
+        $("#txtTranslatorOutput").val(res[0]);
+        $("#txtTranslatorOutput").fadeIn();
+      } else {
+        toastShow("Unable to translate text.");
+      }
       $("#btnTranslatorRun").prop("disabled", false);
     }).catch(error => {
       toastShow("Unable to translate text.");

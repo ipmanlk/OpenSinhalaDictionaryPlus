@@ -17,7 +17,7 @@ const gtranslateGet = (input) => {
     $("#listSugg").empty();
 
     request("https://osd-online.appspot.com/translate", "get", { word: input }).then((data) => {
-        if (!isNullOrEmpty(data) && (langDetect(input) !== langDetect(data))) {
+        if (!data.error) {
             // add meaning to global objects
             if (langDetect(input) == "en2sn") {
                 en2sn[input] = data;
