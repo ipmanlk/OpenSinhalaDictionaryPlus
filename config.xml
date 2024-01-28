@@ -1,36 +1,36 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="xyz.navinda.osdp" version="1.9.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="xyz.navinda.osdp" version="1.0.0" xmlns="http://www.w3.org/ns/widgets"
+    xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Open Sinhala Dictionary Plus</name>
     <description>
         Simple English-Sinhala Dictionary
     </description>
-    <author email="io@navinda.xyz" href="https://www.navinda.xyz">
+    <author email="io@navinda.xyz" href="http://www.navinda.xyz/">
         Navinda Dissanayake
     </author>
     <content src="index.html" />
-    <access origin="*" />
+
+    <preference name="DisallowOverscroll" value="true" />
+    <preference name="AndroidPersistentFileLocation" value="Compatibility" />
+    
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
-    <!-- <allow-intent href="tel:*" />
-    <allow-intent href="sms:*" />
+    <allow-intent href="market:*" />
     <allow-intent href="mailto:*" />
-    <allow-intent href="geo:*" /> -->
+
     <platform name="android">
-        <allow-intent href="market:*" />
-        <icon density="ldpi" src="res/icon/android/ldpi.png" />
-        <icon density="mdpi" src="res/icon/android/mdpi.png" />
-        <icon density="hdpi" src="res/icon/android/hdpi.png" />
-        <icon density="xhdpi" src="res/icon/android/xhdpi.png" />
-        <icon density="xxhdpi" src="res/icon/android/xxhdpi.png" />
-        <icon density="xxxhdpi" src="res/icon/android/xxxhdpi.png" />
+        <!-- app icons -->
+        <icon src="res/android/icon/ldpi.png" density="ldpi" />
+        <icon src="res/android/icon/mdpi.png" density="mdpi" />
+        <icon src="res/android/icon/hdpi.png" density="hdpi" />
+        <icon src="res/android/icon/xhdpi.png" density="xhdpi" />
+        <icon src="res/android/icon/xxhdpi.png" density="xxhdpi" />
+        <icon src="res/android/icon/xxxhdpi.png" density="xxxhdpi" />
+
+        <!-- splash screen -->
+        <preference name="AndroidWindowSplashScreenAnimatedIcon" value="res/android/splash/logo.png" />
+        <resource-file src="res/android/xml/colors.xml" target="/app/src/main/res/values/colors.xml" />
     </platform>
-    <platform name="ios">
-        <allow-intent href="itms:*" />
-        <allow-intent href="itms-apps:*" />
-    </platform>
-    <plugin name="cordova-plugin-whitelist" spec="1" />
-    <plugin name="cordova-plugin-file" spec="^6.0.1" />
-    <plugin name="cordova-plugin-tts" spec="^0.2.3" />
-    <plugin name="cordova-clipboard" spec="^1.2.1" />
-    <plugin name="cordova-plugin-network-information" spec="^2.0.1" />
+
+
 </widget>
